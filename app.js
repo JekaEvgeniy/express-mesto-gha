@@ -1,15 +1,13 @@
 const express = require('express');
+
+const router = require('./routes');
+
 // const bodyParser = require('body-parser');
 const app = express();
-const {	getUsers,	getUserById, createUser } = require('./controllers/users');
 
 app.use(express.json());
 
-app.get('/users', getUsers);
-
-app.get('/users/:id', getUserById);
-
-app.post('/users', createUser);
+app.use(router);
 
 app.listen(3000, () => {
   console.log('listen port 3000');
