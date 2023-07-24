@@ -1,36 +1,68 @@
+const User = require('../models/user');
 
-const users = [];
-let id = 0;
-
+// const users = [];
+// let id = 0;
 const getUsers = (req, res) => {
 	console.log('GET /users');
-	res.status(200).send(users);
+
+	User.find({})
+		.then(users => res.status(200).send(users))
+		.catch(err => res
+			.status(500)
+			.send({
+				message: 'Internal Server Error',
+				err: err.message,
+				stack: err.stack,
+			}));
 };
 
 const getUserById = (req, res) => {
-	let { id } = req.params;
-	const user = users.find(item => item.id === Number(id));
-	if (user) {
-		res.send(user);
-	} else {
-		res.status(404).send({ message: 'User not found' });
-	}
-
+	const textError = 'Not Found';
+	User.findById(req.params.id)
+		.orFail(() => new Error(textError))
+		.then( user => res.status(200).send(user) )
+		.catch(err => {
+			if(err.message === textError){
+				res
+					.status(404)
+					.send({
+						message: 'User not found'
+					})
+			} else {
+				res
+					.status(500)
+					.send({
+						message: 'Internal Server Error',
+						err: err.message,
+						stack: err.stack,
+					})
+			}
+		});
 };
 
 
 const createUser = (req, res) => {
 	console.log('POST /users');
 
-	id += 1;
-	const newUser = {
-		id,
-		...req.body,
-	};
+	User.create(req.body)
+		.then( user => res.status(201).send(user) )
+		.catch(err => res
+			.status(500)
+			.send({
+				message: 'Internal Server Error',
+				err: err.message,
+				stack: err.stack,
+			}));
 
-	users.push(newUser);
+	// id += 1;
+	// const newUser = {
+	// 	id,
+	// 	...req.body,
+	// };
 
-	res.status(201).send(newUser);
+	// users.push(newUser);
+
+	// res.status(201).send(newUser);
 };
 
 module.exports = {
