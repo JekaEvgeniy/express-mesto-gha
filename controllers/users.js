@@ -40,7 +40,6 @@ const getUserById = (req, res) => {
 		});
 };
 
-
 const createUser = (req, res) => {
 	console.log('POST /users');
 
@@ -53,16 +52,6 @@ const createUser = (req, res) => {
 				err: err.message,
 				stack: err.stack,
 			}));
-
-	// id += 1;
-	// const newUser = {
-	// 	id,
-	// 	...req.body,
-	// };
-
-	// users.push(newUser);
-
-	// res.status(201).send(newUser);
 };
 
 module.exports = {
