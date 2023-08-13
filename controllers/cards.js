@@ -87,4 +87,32 @@ const getCardById = (req, res) => {
     });
 };
 
-module.exports = { getCards, createCard, removeCard, getCardById };
+const likeCard = (req, res) => {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+    { new: true },
+  )
+    .then((card) => {
+      if (card) {
+        res.status(200).send(card);
+      } else {
+        res.status(404).send({ message: 'Нет карточки с таким ID' });
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: `Ошибка ${err}` });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'Нет карточки с таким ID' });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
+    });
+};
+
+module.exports = { getCards, createCard, removeCard, getCardById, likeCard };
