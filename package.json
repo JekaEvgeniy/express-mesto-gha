@@ -9,7 +9,7 @@
     "lint": "npx eslint ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Eugene M.",
   "license": "ISC",
   "devDependencies": {
     "eslint-config-airbnb-base": "^15.0.0",
@@ -17,6 +17,7 @@
     "nodemon": "^3.0.1"
   },
   "dependencies": {
+    "eslint": "^8.47.0",
     "express": "^4.18.2",
     "mongoose": "^7.4.0"
   }
