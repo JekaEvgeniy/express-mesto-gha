@@ -8,7 +8,7 @@ const app = express();
 
 // подключаемся к серверу mongo
 
-const {	PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
+const { PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
@@ -27,6 +27,6 @@ app.use((req, res, next) => {
 
 app.use(router);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('listen port 3000');
 });
