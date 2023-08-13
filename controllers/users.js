@@ -32,9 +32,9 @@ const getUserById = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.statusCode === codeErrors.badRequest) {
         res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
-      } else if (err.statusCode === 404) {
+      } else if (err.statusCode === codeErrors.notFound) {
         res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
       } else {
         res.status(codeErrors.serverError).send({
