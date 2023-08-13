@@ -104,7 +104,7 @@ const likeCard = (req, res) => {
       if (card) {
         res.status(codeSuccess.ok).send(card);
       } else {
-        res.status(codeErrors.notFound).send({
+        res.status(codeErrors.badRequest).send({
           message: 'Передан несуществующий _id карточки.',
         });
       }
