@@ -126,7 +126,7 @@ const likeCard = (req, res) => {
         res.status(codeErrors.badRequest).send({
           message: `Ошибка: ${err} => Переданы некорректные данные для постановки лайка`,
         });
-      } else if (err.name === 'Not Found') {
+      } else if (err.name === 'CastError') {
         res.status(codeErrors.badRequest).send({
           message: `Ошибка: ${err} =>  Карточка с указанным _id не найдена.`,
         });
@@ -161,7 +161,7 @@ const dislikeCard = (req, res) => {
           message: 'Переданы некорректные данные для снятии лайка',
         });
       } else if (err.name === 'CastError') {
-        res.status(codeErrors.notFound).send({
+        res.status(codeErrors.badRequest).send({
           message: 'Карточка с указанным _id не найдена.',
         });
       } else {
