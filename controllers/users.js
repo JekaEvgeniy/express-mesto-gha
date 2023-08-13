@@ -32,13 +32,11 @@ const getUserById = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
-      } else if (err.name === 'CastError') {
-        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден.' });
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        res.status(codeErrors.badRequest).send({ message: `Ошибка ${err}. Переданы некорректные данные` });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: `Ошибка ${err}. по умолчанию`,
           err: err.message,
           stack: err.stack,
         });
