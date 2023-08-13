@@ -121,16 +121,14 @@ const likeCard = (req, res) => {
       //     stack: err.stack,
       //   });
       // }
-      console.log(err);
-      console.log(err.codeErrors);
 
       if (err.name === 'ValidationError') {
         res.status(codeErrors.badRequest).send({
-          message: 'Ошибка: ${err} => Переданы некорректные данные для постановки лайка',
+          message: `Ошибка: ${err} => Переданы некорректные данные для постановки лайка`,
         });
       } else if (err.name === 'CastError') {
         res.status(codeErrors.badRequest).send({
-          message: 'Ошибка: ${err} =>  Карточка с указанным _id не найдена.',
+          message: `Ошибка: ${err} =>  Карточка с указанным _id не найдена.`,
         });
       } else {
         res.status(codeErrors.serverError).send({

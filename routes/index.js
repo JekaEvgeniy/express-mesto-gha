@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const codeErrors = require('../vars/data');
 const userRoutes = require('./users');
 const cardRoutes = require('./cards');
 
