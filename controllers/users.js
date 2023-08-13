@@ -32,7 +32,7 @@ const getUserById = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.statusCode === codeErrors.badRequest) {
+      if (err.name === 'CastError') {
         res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
       } else if (err.statusCode === codeErrors.notFound) {
         res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
