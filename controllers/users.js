@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 const getUsers = (req, res) => {
   // console.log('GET /users');
-	console.log(`req.user._id => ${req.user._id}`);
+  // console.log(`req.user._id => ${req.user._id}`);
   User.find({})
     .then((users) => res.status(200).send(users))
     .catch((err) => res
@@ -43,17 +43,17 @@ const createUser = (req, res) => {
 
   User.create(req.body)
     .then((user) => res.status(201).send(user))
-    .catch((err) => res
-      .status(500)
-      .send({
-        message: 'Internal Server Error',
-        err: err.message,
-        stack: err.stack,
-      }));
+    .catch((err) => {
+      if (err.message.includes('Bad Request')) {
+        res.send(400).send({ message: 'Вы ввели некорректные данные' });
+      } else {
+        res.status(500).send({
+          message: 'Internal Server Error',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
+    });
 };
 
-module.exports = {
-  getUsers,
-  getUserById,
-  createUser,
-};
+module.exports = { getUsers, getUserById, createUser };
