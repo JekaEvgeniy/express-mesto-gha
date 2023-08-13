@@ -15,7 +15,7 @@ const createCard = (req, res) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.status(codeSuccess.created).send({ card }))
+    .then((card) => res.status(codeSuccess.created).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(codeErrors.badRequest).send({
