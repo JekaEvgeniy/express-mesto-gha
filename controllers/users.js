@@ -1,10 +1,8 @@
 const User = require('../models/user');
 
-// const users = [];
-// let id = 0;
 const getUsers = (req, res) => {
   // console.log('GET /users');
-
+	console.log(`req.user._id => ${req.user._id}`);
   User.find({})
     .then((users) => res.status(200).send(users))
     .catch((err) => res

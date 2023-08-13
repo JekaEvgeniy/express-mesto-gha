@@ -14,8 +14,17 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  // захардкодили текущего юзера
+  req.user = {
+    _id: '64bdaa123792f85b5dc239fd',
+  };
+
+  next();
+});
+
 app.use(router);
 
 app.listen(3000, () => {
-  // console.log('listen port 3000');
-});// 64bdaa123792f85b5dc239fd
+  console.log('listen port 3000');
+});
