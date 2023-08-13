@@ -7,8 +7,10 @@ const router = require('./routes');
 const app = express();
 
 // подключаемся к серверу mongo
-// mongoose.connect('mongodb://localhost:27017/mestodb', { // error err = new ServerSelectionError();
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+
+const {	PORT = 3000, DATA_BASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
+
+mongoose.connect(DATA_BASE, {
   useNewUrlParser: true,
 });
 
