@@ -110,13 +110,9 @@ const likeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err) {
         res.status(codeErrors.badRequest).send({
           message: 'Переданы некорректные данные для постановки лайка',
-        });
-      } else if (err.name === 'CastError') {
-        res.status(codeErrors.notFound).send({
-          message: 'Карточка с указанным _id не найдена.',
         });
       } else {
         res.status(codeErrors.serverError).send({
@@ -125,6 +121,22 @@ const likeCard = (req, res) => {
           stack: err.stack,
         });
       }
+
+      // if (err.name === 'ValidationError') {
+      //   res.status(codeErrors.badRequest).send({
+      //     message: 'Переданы некорректные данные для постановки лайка',
+      //   });
+      // } else if (err.name === 'CastError') {
+      //   res.status(codeErrors.notFound).send({
+      //     message: 'Карточка с указанным _id не найдена.',
+      //   });
+      // } else {
+      //   res.status(codeErrors.serverError).send({
+      //     message: 'Ошибка по умолчанию',
+      //     err: err.message,
+      //     stack: err.stack,
+      //   });
+      // }
     });
 };
 
