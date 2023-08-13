@@ -9,7 +9,7 @@ const getUsers = (req, res) => {
     .catch((err) => res
       .status(codeErrors.serverError)
       .send({
-        message: 'Internal Server Error',
+        message: 'Ошибка по умолчанию',
         err: err.message,
         stack: err.stack,
       }));
@@ -28,17 +28,17 @@ const getUserById = (req, res) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
       } else {
-        res.status(codeErrors.notFound).send({ message: 'Нет юзера с таким ID' });
+        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден.' });
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(codeErrors.badRequest).send({ message: `Ошибка ${err}` });
+        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
       } else if (err.name === textError) {
-        res.status(codeErrors.notFound).send({ message: 'Нет юзера с таким ID' });
+        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден.' });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Internal Server Error',
+          message: 'Ошибка по умолчанию',
           err: err.message,
           stack: err.stack,
         });
@@ -53,10 +53,10 @@ const createUser = (req, res) => {
     .then((user) => res.status(codeSuccess.created).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(codeErrors.badRequest).send({ message: 'Вы ввели некорректные данные' });
+        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Internal Server Error',
+          message: 'Ошибка по умолчанию',
           err: err.message,
           stack: err.stack,
         });
@@ -76,12 +76,16 @@ const updateUser = (req, res) => {
       if (user) {
         res.status(codeSuccess.ok).send(user);
       } else {
-        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
+        res.status(codeErrors.notFound).send({
+          message: 'Пользователь с указанным _id не найден',
+        });
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные при обновлении профиля' });
+        res.status(codeErrors.badRequest).send({
+          message: 'Переданы некорректные данные при обновлении профиля',
+        });
       } else {
         res.status(codeErrors.serverError).send({
           message: 'Ошибка по умолчанию',
@@ -120,4 +124,6 @@ const updateAvatar = (req, res) => {
     });
 };
 
-module.exports = { getUsers, getUserById, createUser, updateUser, updateAvatar };
+module.exports = {
+  getUsers, getUserById, createUser, updateUser, updateAvatar,
+};
