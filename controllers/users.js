@@ -63,4 +63,41 @@ const createUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, getUserById, createUser };
+const updateUser = (req, res) => {
+  const { name, about } = req.body;
+
+  console.log('GET /users/me');
+  console.log(`req => ${req}`);
+
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { new: true, runValidators: true },
+  )
+    .then((user) => {
+      if (user) {
+        // res.status(200).send(user);
+        res.send({
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          _id: user._id,
+        });
+      } else {
+        res.status(404).send({ message: 'Пользователь с указанным _id не найден' });
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля' });
+      } else {
+        res.status(500).send({
+          message: 'Ошибка по умолчанию',
+          err: err.message,
+          stack: err.stack,
+        });
+      }
+    });
+};
+
+module.exports = { getUsers, getUserById, createUser, updateUser };
