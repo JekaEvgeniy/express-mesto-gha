@@ -6,6 +6,6 @@ router.get('/:id', getCardById);
 
 router.post('/', createCard);
 
-router.delete('/:id', removeCard);
+router.delete('/:cardId', removeCard);
 
 module.exports = router;

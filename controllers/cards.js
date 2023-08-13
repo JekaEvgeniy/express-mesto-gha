@@ -87,5 +87,4 @@ const getCardById = (req, res) => {
     });
 };
 
-
 module.exports = { getCards, createCard, removeCard, getCardById };
