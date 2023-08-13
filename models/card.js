@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,7 +10,7 @@ const cardSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    minlength: 5
+    minlength: 5,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
