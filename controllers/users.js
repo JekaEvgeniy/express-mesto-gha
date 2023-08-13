@@ -1,12 +1,13 @@
+const { codeErrors, codeSuccess } = require('../vars/data');
 const User = require('../models/user');
 
 const getUsers = (req, res) => {
   // console.log('GET /users');
-  // console.log(`req.user._id => ${req.user._id}`);
+
   User.find({})
-    .then((users) => res.status(200).send(users))
+    .then((users) => res.status(codeSuccess.ok).send(users))
     .catch((err) => res
-      .status(500)
+      .status(codeErrors.serverError)
       .send({
         message: 'Internal Server Error',
         err: err.message,
@@ -20,23 +21,23 @@ const getUserById = (req, res) => {
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error(textError);
-      error.statusCode = 404;
+      error.statusCode = codeErrors.notFound;
       return error;
     })
     .then((user) => {
       if (user) {
-        res.status(200).send(user);
+        res.status(codeSuccess.ok).send(user);
       } else {
-        res.status(404).send({ message: 'Нет юзера с таким ID' });
+        res.status(codeErrors.notFound).send({ message: 'Нет юзера с таким ID' });
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: `Ошибка ${err}` });
+        res.status(codeErrors.badRequest).send({ message: `Ошибка ${err}` });
       } else if (err.name === textError) {
-        res.status(404).send({ message: 'Нет юзера с таким ID' });
+        res.status(codeErrors.notFound).send({ message: 'Нет юзера с таким ID' });
       } else {
-        res.status(500).send({
+        res.status(codeErrors.serverError).send({
           message: 'Internal Server Error',
           err: err.message,
           stack: err.stack,
@@ -49,12 +50,12 @@ const createUser = (req, res) => {
   // console.log('POST /users');
 
   User.create(req.body)
-    .then((user) => res.status(201).send(user))
+    .then((user) => res.status(codeSuccess.created).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Вы ввели некорректные данные' });
+        res.status(codeErrors.badRequest).send({ message: 'Вы ввели некорректные данные' });
       } else {
-        res.status(500).send({
+        res.status(codeErrors.serverError).send({
           message: 'Internal Server Error',
           err: err.message,
           stack: err.stack,
@@ -73,16 +74,16 @@ const updateUser = (req, res) => {
   )
     .then((user) => {
       if (user) {
-        res.status(200).send(user);
+        res.status(codeSuccess.ok).send(user);
       } else {
-        res.status(404).send({ message: 'Пользователь с указанным _id не найден' });
+        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля' });
+        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные при обновлении профиля' });
       } else {
-        res.status(500).send({
+        res.status(codeErrors.serverError).send({
           message: 'Ошибка по умолчанию',
           err: err.message,
           stack: err.stack,
@@ -101,16 +102,16 @@ const updateAvatar = (req, res) => {
   )
     .then((user) => {
       if (user) {
-        res.status(200).send(user);
+        res.status(codeSuccess.ok).send(user);
       } else {
-        res.status(404).send({ message: 'Пользователь с указанным _id не найден' });
+        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
       }
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля' });
+        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные при обновлении профиля' });
       } else {
-        res.status(500).send({
+        res.status(codeErrors.serverError).send({
           message: 'Ошибка по умолчанию',
           err: err.message,
           stack: err.stack,
