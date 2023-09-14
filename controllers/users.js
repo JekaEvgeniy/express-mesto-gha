@@ -47,10 +47,11 @@ const getUserById = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  // console.log('POST /users');
+  console.log('POST /signup');
 
   User.create(req.body)
-    .then((user) => res.status(codeSuccess.created).send(user))
+    // .then((user) => res.status(codeSuccess.created).send(user))
+    .then((user) => res.status(codeSuccess.created).send({data: user}))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });

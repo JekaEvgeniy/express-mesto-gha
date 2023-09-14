@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { codeErrors } = require('../vars/data');
 const userRoutes = require('./users');
-const createUser = require('./users');
 const cardRoutes = require('./cards');
+const { createUser } = require('../controllers/users');
 
-router.post('/singup', createUser);
+router.post('/signup', createUser);
 
 router.use('/users', userRoutes);
 router.use('/cards', cardRoutes);

@@ -7,6 +7,7 @@ router.get('/', getUsers); // Пути суммируются /users/users см.
 router.get('/:id', getUserById);
 
 router.post('/', createUser);
+router.post('/signup', createUser);
 
 router.patch('/me', updateUser);
 router.patch('/me/avatar', updateAvatar);
