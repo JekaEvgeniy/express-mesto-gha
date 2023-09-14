@@ -3,7 +3,8 @@ const { codeErrors, codeSuccess } = require('../vars/data');
 const User = require('../models/user');
 
 const getUsers = (req, res) => {
-  // console.log('GET /users');
+  console.log('GET /users');
+  console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
 
   User.find({})
     .then((users) => res.status(codeSuccess.ok).send(users))

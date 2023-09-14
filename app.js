@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const router = require('./routes');
+const cookieParser = require('cookie-parser');
 
 // const bodyParser = require('body-parser');
 const app = express();
@@ -15,6 +16,7 @@ mongoose.connect(DATA_BASE, {
 });
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   // захардкодили текущего юзера
