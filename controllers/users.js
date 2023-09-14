@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const { codeErrors, codeSuccess } = require('../vars/data');
 const User = require('../models/user');
 
@@ -49,19 +50,23 @@ const getUserById = (req, res) => {
 const createUser = (req, res) => {
   console.log('POST /signup');
 
-  User.create(req.body)
-    // .then((user) => res.status(codeSuccess.created).send(user))
-    .then((user) => res.status(codeSuccess.created).send({data: user}))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
-          err: err.message,
-          stack: err.stack,
+  bcrypt.hash(String(req.body.password), 10)
+    .then((hash) => {
+      User.create({
+        ...req.body, password: hash,
+      })
+        .then((user) => res.status(codeSuccess.created).send({ data: user }))
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
+          } else {
+            res.status(codeErrors.serverError).send({
+              message: 'Ошибка по умолчанию',
+              err: err.message,
+              stack: err.stack,
+            });
+          }
         });
-      }
     });
 };
 
