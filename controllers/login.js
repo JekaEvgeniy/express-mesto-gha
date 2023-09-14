@@ -17,6 +17,10 @@ const login = (req, res) => {
     .orFail(() => new Error('Пользователь не найден'))
 
     .then((user) => {
+      if (user) {
+        return res.status(409).send({message: 'Такой пользователь уже существует'});
+      }
+
       bcrypt.compare(String(password), user.password)
         .then((isValidUser) => {
           if (isValidUser) {
