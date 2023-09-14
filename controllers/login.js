@@ -22,7 +22,7 @@ const login = (req, res) => {
           if (isValidUser) {
             const jwt = jsonWebToken.sign({
               _id: user._id,
-            }, 'some-secret-key');
+            }, process.env['JWT_CODE']);
 
             res.cookie('jwt', jwt, {
               maxAge: 360000,

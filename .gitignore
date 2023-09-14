@@ -9,7 +9,7 @@ npm-debug.log*
 /node_modules
 /.pnp
 .pnp.js
-
+.env
 # Optional npm cache directory
 .npm
 

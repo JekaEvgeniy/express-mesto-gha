@@ -5,6 +5,7 @@ const cardRoutes = require('./cards');
 const { createUser } = require('../controllers/users');
 const { login } = require('../controllers/login');
 const auth = require('../widdlewares/auth');
+const req = require('express/lib/request');
 
 router.post('/signup', createUser);
 router.post('/signin', login);
