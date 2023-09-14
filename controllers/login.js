@@ -4,11 +4,11 @@ const { codeErrors, codeSuccess } = require('../vars/data');
 const User = require('../models/user');
 
 const login = (req, res) => {
-  console.log('POST /login');
+  // console.log('POST /login');
   const { email, password } = req.body;
 
   if (!email && !password) {
-    res.status(403).send({ message: 'Неправильный логин/пароль' });
+    res.status(400).send({ message: 'Неправильный логин/пароль' });
     return;
   }
 

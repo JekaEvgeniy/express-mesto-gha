@@ -17,6 +17,39 @@ const getUsers = (req, res) => {
       }));
 };
 
+const getCurrentUser = (req, res) => {
+  const textError = 'Not Found';
+
+  console.log(req.user._id);
+
+  User.findById(req.user._id)
+    .orFail(() => {
+      const error = new Error(textError);
+      error.statusCode = codeErrors.notFound;
+      return error;
+    })
+    .then((user) => {
+      if (user) {
+        res.status(codeSuccess.ok).send(user);
+      } else {
+        res.status(codeErrors.notFound).send({ message: 'Ошибка ... ... ...' });
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
+      } else if (err.statusCode === codeErrors.notFound) {
+        res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
+      } else {
+        res.status(codeErrors.serverError).send({
+          message: `Ошибка ${err}. по умолчанию`,
+          err: err.message,
+          stack: err.stack,
+        });
+      }
+    });
+};
+
 const getUserById = (req, res) => {
   const textError = 'Not Found';
 
@@ -132,5 +165,5 @@ const updateAvatar = (req, res) => {
 };
 
 module.exports = {
-  getUsers, getUserById, createUser, updateUser, updateAvatar,
+  getUsers, getCurrentUser, getUserById, createUser, updateUser, updateAvatar,
 };
