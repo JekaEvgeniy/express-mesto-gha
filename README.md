@@ -14,7 +14,7 @@
 * [Github Mesto-React](https://github.com/JekaEvgeniy/mesto-react)
 * [GitHub Pages Mesto-React](https://jekaevgeniy.github.io/mesto-react/)
 
-## ПР13:
+## ПР13 + 14:
 * [Github Mesto-Express](https://github.com/JekaEvgeniy/express-mesto-gha)
 
 ## Обзор
@@ -59,3 +59,5 @@
 * [Чеклист 10 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-10.pdf)
 * [Чеклист 11 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-11.pdf)
 * [Чеклист 12 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist-12.pdf)
+* [Чеклист 13 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist_13.pdf)
+* [Чеклист 14 спринта](https://code.s3.yandex.net/web-developer/checklists-pdf/new-program/checklist_14.pdf)
