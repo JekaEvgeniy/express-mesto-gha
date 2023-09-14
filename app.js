@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const router = require('./routes');
 const cookieParser = require('cookie-parser');
+const errorHandler = require('./widdlewares/error');
 
 // const bodyParser = require('body-parser');
 const app = express();
@@ -28,6 +29,8 @@ app.use((req, res, next) => {
 });
 
 app.use(router);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log('listen port 3000');

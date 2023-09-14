@@ -7,6 +7,11 @@ const login = (req, res) => {
   console.log('POST /login');
   const { email, password } = req.body;
 
+  if (!email && !password) {
+    res.status(403).send({ message: 'Неправильный логин/пароль' });
+    return;
+  }
+
   User.findOne({ email })
     .select('+password')
     .orFail(() => new Error('Пользователь не найден'))
