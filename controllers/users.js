@@ -61,7 +61,7 @@ const createUser = (req, res) => {
     return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
   }
 
-  return User.findOne({ email })
+  User.findOne({ email })
     .then((user) => {
       if (user) {
         return res.status(409).send({ message: 'Такой пользователь уже существует. Введите другой email' });
@@ -81,16 +81,16 @@ const createUser = (req, res) => {
             })
             .catch((err) => {
               if (err.name === 'ValidationError') {
-                res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
-              } else if (err.code === 11000) {
-                res.status(codeErrors.badRequest).send({ message: 'Пользователь с таким email уже существует' });
-              } else {
-                res.status(codeErrors.serverError).send({
-                  message: 'Ошибка по умолчанию',
-                  err: err.message,
-                  stack: err.stack,
-                });
+                return res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
               }
+              if (err.code === 11000) {
+                return res.status(codeErrors.badRequest).send({ message: 'Пользователь с таким email уже существует' });
+              }
+              return res.status(codeErrors.serverError).send({
+                message: 'Ошибка по умолчанию',
+                err: err.message,
+                stack: err.stack,
+              });
             });
         });
     });
