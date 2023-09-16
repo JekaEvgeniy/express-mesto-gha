@@ -23,20 +23,17 @@ const login = (req, res) => {
       bcrypt.compare(String(password), user.password)
         .then((isValidUser) => {
           if (isValidUser) {
-            const token = jwt.sign({
-              _id: user._id,
-            },
-            process.env['JWT_CODE'],
-            { expiresIn: '1d' },
+            const token = jwt.sign(
+              { _id: user._id },
+              process.env['JWT_CODE'],
+              { expiresIn: '1d' },
             );
 
             res.cookie('jwt', token, {
               maxAge: 360000 * 24 * 1,
               httpOnly: true,
               sameSite: true,
-            });
-
-            res.send(user);
+            }).send(user);
           } else {
             res.status(403).send({ message: 'Неправильный логин/пароль' });
           }

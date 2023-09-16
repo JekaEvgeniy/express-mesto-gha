@@ -3,6 +3,7 @@
 # Logs
 logs
 *.log
+_*.*
 npm-debug.log*
 
 # dependencies
@@ -12,7 +13,6 @@ npm-debug.log*
 .env
 # Optional npm cache directory
 .npm
-
 # testing
 /coverage
 
