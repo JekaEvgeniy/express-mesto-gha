@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { celebrate, Joi, errors } = require('celebrate'); // https://www.npmjs.com/package/celebrate
+const { celebrate, Joi } = require('celebrate'); // https://www.npmjs.com/package/celebrate
 
 const { codeErrors } = require('../vars/data');
 const userRoutes = require('./users');
@@ -9,7 +9,8 @@ const auth = require('../widdlewares/auth');
 
 // https://regex101.com/
 // ТЗ: Поле password не ограничено в длину, так как пароль хранится в виде хеша
-router.post('/signup',
+router.post(
+  '/signup',
   celebrate({
     body: Joi.object().keys({
       password: Joi.string().required(),
@@ -22,7 +23,8 @@ router.post('/signup',
   createUser,
 );
 
-router.post('/signin',
+router.post(
+  '/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),

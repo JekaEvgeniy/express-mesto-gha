@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const {
-  getUsers, getUserById, createUser, updateUser, updateAvatar, getCurrentUser
+  getUsers, getUserById, createUser, updateUser, updateAvatar, getCurrentUser,
 } = require('../controllers/users');
 
 router.get('/', getUsers); // Пути суммируются /users/users см. внимательно index.js
-router.get('/:id',
+router.get(
+  '/:id',
   celebrate({
     params: Joi.object().keys({
       userId: Joi.string().required().length(24).hex(),
@@ -18,7 +19,8 @@ router.get('/me', getCurrentUser);
 router.post('/', createUser);
 router.post('/signup', createUser);
 
-router.patch('/me',
+router.patch(
+  '/me',
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
@@ -27,7 +29,8 @@ router.patch('/me',
   }),
   updateUser,
 );
-router.patch('/me/avatar',
+router.patch(
+  '/me/avatar',
   celebrate({
     body: Joi.object().keys({
       avatar: Joi.string().regex(/^(http|https):\/\/(?:www\.)?[a-zA-Z0-9._~\-:?#[\]@!$&'()*+,/;=]{2,256}\.[a-zA-Z0-9./?#-]{2,}$/),

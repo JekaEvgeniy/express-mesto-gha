@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { codeErrors, codeSuccess } = require('../vars/data');
 const BadRequestError = require('../errors/BadRequestError');
-const ForbiddenError = require('../errors/ForbiddenError');
 const User = require('../models/user');
 
 const login = (req, res) => {
@@ -45,7 +44,7 @@ const login = (req, res) => {
           }
         });
     })
-    .catch((err) => res.status(401).send({ message: 'Неправильный логин/пароль' }));
+    .catch(() => res.status(401).send({ message: 'Неправильный логин/пароль' }));
 };
 
 const createUser = (req, res) => {
@@ -73,7 +72,7 @@ const createUser = (req, res) => {
           User.create({
             name, about, avatar, email, password: hash,
           })
-            .then((user) => {
+            .then(() => {
               res.status(codeSuccess.created).send({
                 data: {
                   name, about, avatar, email,
