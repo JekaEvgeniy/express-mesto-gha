@@ -10,7 +10,7 @@ const auth = (req, res, next) => {
   const token = req.cookies.jwt;
 
   try {
-    payload = jwt.verify(token, process.env['JWT_CODE']);
+    payload = jwt.verify(token, process.env.JWT_CODE);
   } catch (err) {
     return next(new UnauthorizedError());
   }

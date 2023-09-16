@@ -2,9 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate'); // https://www.npmjs.com/package/celebrate
+const cookies = require('cookie-parser');
 
 const router = require('./routes');
-const cookies = require('cookie-parser');
 const errorHandler = require('./widdlewares/error');
 
 // const bodyParser = require('body-parser');
@@ -28,5 +28,5 @@ app.use(errors()); // for celebrate
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log('listen port 3000');
+  // console.log('listen port 3000');
 });

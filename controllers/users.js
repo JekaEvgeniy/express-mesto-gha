@@ -17,7 +17,7 @@ const login = (req, res) => {
     throw new BadRequestError('Поля email и password обязательны для заполнения');
   }
 
-  User.findOne({ email })
+  return User.findOne({ email })
     .select('+password')
     .orFail(() => new Error('Пользователь не найден'))
 
@@ -27,7 +27,7 @@ const login = (req, res) => {
           if (isValidUser) {
             const token = jwt.sign(
               { _id: user._id },
-              process.env['JWT_CODE'],
+              process.env.JWT_CODE,
               { expiresIn: '1d' },
             );
 
@@ -61,7 +61,7 @@ const createUser = (req, res) => {
     return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
   }
 
-  User.findOne({ email })
+  return User.findOne({ email })
     .then((user) => {
       if (user) {
         return res.status(409).send({ message: 'Такой пользователь уже существует. Введите другой email' });
