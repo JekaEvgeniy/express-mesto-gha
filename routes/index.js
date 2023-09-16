@@ -2,15 +2,13 @@ const router = require('express').Router();
 const { codeErrors } = require('../vars/data');
 const userRoutes = require('./users');
 const cardRoutes = require('./cards');
-const { createUser, getCurrentUser } = require('../controllers/users');
-const { login } = require('../controllers/login');
+const { createUser, getCurrentUser, login } = require('../controllers/users');
 const auth = require('../widdlewares/auth');
-const req = require('express/lib/request');
 
 router.post('/signup', createUser);
 router.post('/signin', login);
 
-router.use('/users', userRoutes);
+router.use('/users', auth, userRoutes);
 router.use('/cards', auth, cardRoutes);
 router.use('/me', getCurrentUser);
 
