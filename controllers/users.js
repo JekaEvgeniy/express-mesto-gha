@@ -15,28 +15,40 @@ const login = (req, res) => {
     return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
   }
 
-  // Если юзера нет, то и пароль проверять бесполезно!
-  const checkUser = User.findOne({ email });
-  if (! checkUser ) {
-    return res.status(401).send({ message: 'Поля email и password обязательны для заполнения' });
-  }
+  User.findOne({ email })
+    .select('+password')
+    .orFail(() => new Error('Пользователь не найден'))
 
-  return User.findUserByCredentials(email, String(password))
     .then((user) => {
-      // создадим токен
-      const token = jwt.sign(
-        { _id: user._id },
-        process.env['JWT_CODE'],
-        { expiresIn: 3600 }, // токен будет просрочен через час после создания
-      );
-      // console.log(token);
+      bcrypt.compare(String(password), user.password)
+        .then((isValidUser) => {
+          if (isValidUser) {
+            const token = jwt.sign({
+              _id: user._id,
+            },
+            process.env['JWT_CODE'],
+            { expiresIn: '1d' },
+            );
 
-      // вернём токен
-      res.send({ token });
+            res.cookie('jwt', token, {
+              maxAge: 360000 * 24 * 1,
+              httpOnly: true,
+              sameSite: true,
+            });
+
+            res.send(user);
+          } else {
+            res.status(403).send({ message: 'Неправильный логин/пароль' });
+          }
+        });
     })
-    .catch((err) => {
-      res.status(401).send({ message: 'Неправильный логин/пароль' });
-    });
+    .catch((err) => res
+      .status(codeErrors.serverError)
+      .send({
+        message: 'Ошибка по умолчанию',
+        err: err.message,
+        stack: err.stack,
+      }));
 };
 
 const createUser = (req, res) => {

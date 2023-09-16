@@ -16,6 +16,8 @@ const auth = (req, res, next) => {
     return res.status(401).send({ message: 'Необходима авторизация' });
   }
 
+  res.cookie('jwt', token);
+
   req.user = payload;
   next();
 };

@@ -56,3 +56,49 @@ const login = (req, res) => {
 module.exports = {
   login,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Если юзера нет, то и пароль проверять бесполезно!
+// const checkUser = User.findOne({ email }).select('+password');
+// if (! checkUser ) {
+//   return res.status(401).send({ message: 'Поля email и password обязательны для заполнения' });
+// }
+
+// return User.findUserByCredentials(email, String(password))
+//   .then((user) => {
+//     // создадим токен
+//     const token = jwt.sign(
+//       { _id: user._id },
+//       process.env['JWT_CODE'],
+//       { expiresIn: 3600 * 24 }, // токен будет просрочен через 24 часа после создания
+//     );
+
+
+//     // вернём токен
+//     // res.send({ token });
+//     res.send({ token });
+//   })
+//   .catch((err) => {
+//     res.status(401).send({ message: 'Неправильный логин/пароль' });
+//   });
