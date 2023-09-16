@@ -6,7 +6,7 @@ const ForbiddenError = require('../errors/ForbiddenError');
 const User = require('../models/user');
 
 const login = (req, res) => {
-  console.log('POST /login');
+  // console.log('POST /login');
   if (!req.body) {
     return res.status(403).send({ message: 'Invalid request body' });
   }
@@ -55,7 +55,7 @@ const login = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  console.log('POST /signup >>> users.js > createUser');
+  // console.log('POST /signup >>> users.js > createUser');
 
   if (!req.body) {
     return res.status(400).send({ message: 'Переданы некорректные данные' });
@@ -96,7 +96,7 @@ const createUser = (req, res) => {
 };
 
 const getUsers = (req, res) => {
-  console.log('GET /users');
+  // console.log('GET /users');
   // console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
 
   User.find({})
@@ -112,8 +112,6 @@ const getUsers = (req, res) => {
 
 const getCurrentUser = (req, res) => {
   const textError = 'Not Found';
-
-  console.log(req.user._id);
 
   User.findById(req.user._id)
     .orFail(() => {
