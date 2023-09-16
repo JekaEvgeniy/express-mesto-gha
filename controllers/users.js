@@ -61,7 +61,9 @@ const createUser = (req, res) => {
     return res.status(400).send({ message: 'Переданы некорректные данные' });
   }
 
-  const { email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
   if (!email && !password) {
     return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
   }
@@ -69,15 +71,21 @@ const createUser = (req, res) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        return res.status(400).send({ message: 'Такой пользователь уже существует. Введите другой email' });
+        return res.status(409).send({ message: 'Такой пользователь уже существует. Введите другой email' });
       }
 
       bcrypt.hash(String(req.body.password), 10)
         .then((hash) => {
           User.create({
-            ...req.body, password: hash,
+            name, about, avatar, email, password: hash,
           })
-            .then((user) => res.status(codeSuccess.created).send({ data: user }))
+            .then((user) => {
+              res.status(codeSuccess.created).send({
+                data: {
+                  name, about, avatar, email,
+                },
+              });
+            })
             .catch((err) => {
               if (err.name === 'ValidationError') {
                 res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
