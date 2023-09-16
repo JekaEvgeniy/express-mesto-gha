@@ -8,8 +8,10 @@ const auth = require('../widdlewares/auth');
 router.post('/signup', createUser);
 router.post('/signin', login);
 
-router.use('/users', auth, userRoutes);
-router.use('/cards', auth, cardRoutes);
+router.use(auth);
+
+router.use('/users', userRoutes);
+router.use('/cards', cardRoutes);
 router.use('/me', getCurrentUser);
 
 router.use('*', (req, res) => {
@@ -21,10 +23,6 @@ router.use('*', (req, res) => {
 module.exports = router;
 /*
 checklist_14
-Удалён хардкод req.user из проектной работы предыдущего спринта.
-
-
-Все роуты, кроме /signin и /signup , должны быть защищены авторизацией.
 
 401 — передан неверный логин или пароль. Также эту ошибку возвращает авторизационный middleware,
 если передан неверный JWT;

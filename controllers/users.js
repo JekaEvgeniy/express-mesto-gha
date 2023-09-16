@@ -91,7 +91,7 @@ const createUser = (req, res) => {
 
 const getUsers = (req, res) => {
   console.log('GET /users');
-  console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
+  // console.log(111, req.user);//{ _id: '650323047e49e29bf8466e52', iat: 1694712469 }
 
   User.find({})
     .then((users) => res.status(codeSuccess.ok).send(users))

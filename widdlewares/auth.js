@@ -7,8 +7,9 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, process.env['JWT_CODE']);
   } catch (err) {
-    res.status(401).send({ message: 'Доступ заблокирован' });
+    return res.status(401).send({ message: 'Доступ заблокирован, требуется авторизация.' });
   }
+
   req.user = payload;
   next();
 };

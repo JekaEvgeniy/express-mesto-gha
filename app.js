@@ -20,15 +20,6 @@ mongoose.connect(DATA_BASE, {
 app.use(express.json());
 app.use(cookies());
 
-app.use((req, res, next) => {
-  // захардкодили текущего юзера
-  req.user = {
-    _id: '64bdaa123792f85b5dc239fd',
-  };
-
-  next();
-});
-
 app.use(router);
 
 app.use(errorHandler);
