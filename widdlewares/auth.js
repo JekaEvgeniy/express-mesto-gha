@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
+  if (req.cookies) {
+    return res.status(401).send({ message: 'Доступ заблокирован, требуется авторизация.' });
+  }
+
   let payload;
   const token = req.cookies.jwt;
 
