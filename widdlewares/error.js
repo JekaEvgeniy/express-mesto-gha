@@ -1,30 +1,8 @@
-class UserNotFound extends Error {
-  constructor(err) {
-    super(err);
-    this.message = 'Пользователь не найден';
-    this.statusCode = 404;
-  }
-};
-
-class OtherErrors extends Error {
-  constructor(err) {
-    super(err);
-    this.message = err.body;
-    this.statusCode = err.statusCode;
-  }
-};
-
 const errorHandler = (err, req, res, next) => {
-  console.log(err);
-  let error;
+  const statusCode = err.statusCode || 500;
 
-  if (err.statusCode = 404) {
-    error = new UserNotFound(err);
-  } else {
-    error = new OtherErrors(err);
-  }
-
-  res.status(err.statusCode).send({ message: error.message });
+  const message = statusCode === 500 ? 'Внутренняя ошибка сервера.' : err.message;
+  res.status(statusCode).send({ message });
   next();
 };
 

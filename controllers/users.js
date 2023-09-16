@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { codeErrors, codeSuccess } = require('../vars/data');
+const BadRequestError = require('../errors/BadRequestError');
+const ForbiddenError = require('../errors/ForbiddenError');
 const User = require('../models/user');
 
 const login = (req, res) => {
@@ -12,7 +14,8 @@ const login = (req, res) => {
   const { email, password } = req.body;
 
   if (!email && !password) {
-    return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
+    // return res.status(400).send({ message: 'Поля email и password обязательны для заполнения' });
+    throw new BadRequestError('Поля email и password обязательны для заполнения');
   }
 
   User.findOne({ email })
@@ -35,6 +38,9 @@ const login = (req, res) => {
               sameSite: true,
             }).send(user);
           } else {
+            // С throw Postman Не вываливает сообщение о ошибках. >>> Could not get response
+            // throw new ForbiddenError('Неправильный логин/пароль');
+
             res.status(403).send({ message: 'Неправильный логин/пароль' });
           }
         });

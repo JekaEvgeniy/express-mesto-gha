@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const auth = (req, res, next) => {
   if (!req.cookies) {
-    return res.status(401).send({ message: 'Доступ заблокирован, требуется авторизация.' });
+    return next(new UnauthorizedError());
   }
 
   let payload;
@@ -11,7 +12,7 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, process.env['JWT_CODE']);
   } catch (err) {
-    return res.status(401).send({ message: 'Доступ заблокирован, требуется авторизация.' });
+    return next(new UnauthorizedError());
   }
 
   req.user = payload;
