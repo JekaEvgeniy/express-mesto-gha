@@ -45,13 +45,7 @@ const login = (req, res) => {
           }
         });
     })
-    .catch((err) => res
-      .status(codeErrors.serverError)
-      .send({
-        message: 'Ошибка по умолчанию',
-        err: err.message,
-        stack: err.stack,
-      }));
+    .catch((err) => res.status(401).send({ message: 'Неправильный логин/пароль' }));
 };
 
 const createUser = (req, res) => {
