@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate'); // https://www.npmjs.com/package/celebrate
 
 const router = require('./routes');
 const cookies = require('cookie-parser');
@@ -21,6 +22,8 @@ app.use(express.json());
 app.use(cookies());
 
 app.use(router);
+
+app.use(errors()); // for celebrate
 
 app.use(errorHandler);
 
