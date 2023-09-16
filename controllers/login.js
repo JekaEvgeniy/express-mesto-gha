@@ -4,7 +4,11 @@ const { codeErrors, codeSuccess } = require('../vars/data');
 const User = require('../models/user');
 
 const login = (req, res) => {
-  // console.log('POST /login');
+  console.log('POST /login');
+  if (!req.body) {
+    return res.status(403).send({ message: 'Invalid request body' });
+  }
+
   const { email, password } = req.body;
 
   if (!email && !password) {

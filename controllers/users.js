@@ -82,7 +82,7 @@ const getUserById = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  console.log('POST /signup');
+  // console.log('POST /signup');
 
   bcrypt.hash(String(req.body.password), 10)
     .then((hash) => {
@@ -92,6 +92,8 @@ const createUser = (req, res) => {
         .then((user) => res.status(codeSuccess.created).send({ data: user }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
+            res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
+          } else if( err.code === 11000 ){
             res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные' });
           } else {
             res.status(codeErrors.serverError).send({
