@@ -23,7 +23,7 @@ const createCard = (req, res) => {
         });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -49,7 +49,7 @@ const removeCard = (req, res) => {
         });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -86,7 +86,7 @@ const getCardById = (req, res) => {
         });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -110,18 +110,6 @@ const likeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      // if (err) {
-      //   res.status(codeErrors.badRequest).send({
-      //     message: 'Переданы некорректные данные для постановки лайка',
-      //   });
-      // } else {
-      //   res.status(codeErrors.serverError).send({
-      //     message: 'Ошибка по умолчанию',
-      //     err: err.message,
-      //     stack: err.stack,
-      //   });
-      // }
-
       if (err.name === 'ValidationError') {
         res.status(codeErrors.badRequest).send({
           message: `Ошибка: ${err} => Переданы некорректные данные для постановки лайка`,
@@ -132,7 +120,7 @@ const likeCard = (req, res) => {
         });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -166,7 +154,7 @@ const dislikeCard = (req, res) => {
         });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });

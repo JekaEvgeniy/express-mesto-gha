@@ -64,7 +64,7 @@ const createUser = (req, res) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        return res.status(409).send({ message: 'Такой пользователь уже существует. Введите другой email' });
+        return res.status(409).send({ message: 'При регистрации указан email, который уже существует на сервере' });
       }
 
       bcrypt.hash(String(req.body.password), 10)
@@ -87,7 +87,7 @@ const createUser = (req, res) => {
                 return res.status(codeErrors.badRequest).send({ message: 'Пользователь с таким email уже существует' });
               }
               return res.status(codeErrors.serverError).send({
-                message: 'Ошибка по умолчанию',
+                message: 'На сервере произошла ошибка',
                 err: err.message,
                 stack: err.stack,
               });
@@ -105,7 +105,7 @@ const getUsers = (req, res) => {
     .catch((err) => res
       .status(codeErrors.serverError)
       .send({
-        message: 'Ошибка по умолчанию',
+        message: 'На сервере произошла ошибка',
         err: err.message,
         stack: err.stack,
       }));
@@ -134,7 +134,7 @@ const getCurrentUser = (req, res) => {
         res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
       } else {
         res.status(codeErrors.serverError).send({
-          message: `Ошибка ${err}. по умолчанию`,
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -165,7 +165,7 @@ const getUserById = (req, res) => {
         res.status(codeErrors.notFound).send({ message: 'Пользователь с указанным _id не найден' });
       } else {
         res.status(codeErrors.serverError).send({
-          message: `Ошибка ${err}. по умолчанию`,
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -197,7 +197,7 @@ const updateUser = (req, res) => {
         });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
@@ -225,7 +225,7 @@ const updateAvatar = (req, res) => {
         res.status(codeErrors.badRequest).send({ message: 'Переданы некорректные данные при обновлении профиля' });
       } else {
         res.status(codeErrors.serverError).send({
-          message: 'Ошибка по умолчанию',
+          message: 'На сервере произошла ошибка',
           err: err.message,
           stack: err.stack,
         });
